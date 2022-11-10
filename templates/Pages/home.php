@@ -73,6 +73,7 @@ endif;
         <a>Profile</a>
     </header>
 
+<?= $this->Html->image('pos_image.jpg') ?>
 
 </body>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
