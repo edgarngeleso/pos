@@ -337,7 +337,7 @@ return [
          */
         'test' => [
             'className' => Connection::class,
-            'driver' => Postgres::class,
+            'driver' => Mysql::class,
             'persistent' => false,
             'timezone' => 'UTC',
             //'encoding' => 'utf8mb4',
@@ -345,7 +345,7 @@ return [
             'cacheMetadata' => true,
             'quoteIdentifiers' => false,
             'log' => false,
-            //'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
+            'init' => ['SET GLOBAL innodb_stats_on_metadata = 0'],
         ],
     ],
 
