@@ -19,3 +19,9 @@ body {
 header {
     margin-bottom: 50px;
 }
+
+.image{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+}
