@@ -1,0 +1,32 @@
+{
+  "name": "pos",
+  "version": "1.0.0",
+  "description": "Company point of sale web app",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edgarngeleso/pos.git"
+  },
+  "keywords": [
+    "cakePHP",
+    "javascript",
+    "silent",
+    "print",
+    "manager"
+  ],
+  "author": "Edgar Ngeleso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edgarngeleso/pos/issues"
+  },
+  "homepage": "https://github.com/edgarngeleso/pos#readme",
+  "dependencies": {
+    "jsprintmanager": "^5.0.2"
+  }
+}
