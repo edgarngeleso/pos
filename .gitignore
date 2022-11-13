@@ -49,3 +49,7 @@ nbproject/*
 # yarn
 yarn-debug.log
 yarn-error.log
+
+#bootstrap local
+/webroot/css/bootstrap
+/webroot/js/bootstrap

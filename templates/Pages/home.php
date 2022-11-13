@@ -20,7 +20,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 use Cake\Http\Exception\NotFoundException;
 
-$this->disableAutoLayout();
+//$this->disableAutoLayout();
 
 $checkConnection = function (string $name) {
     $error = null;
@@ -60,7 +60,7 @@ endif;
     <?= $this->Html->meta('icon') ?>
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
 
     <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home']) ?>
 
@@ -69,12 +69,12 @@ endif;
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <header style="width:100%;height:50px;background-color: #2e2b2c;">
-        <a>Profile</a>
-    </header>
 
 <?= $this->Html->image('pos_image.jpg',array("class"=>"image")) ?>
 
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+
+<!--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js">\
+</script>-->
+
 </html>

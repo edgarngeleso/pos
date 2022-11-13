@@ -1,0 +1,15 @@
+.header{
+    width:100%;
+    background-color: #ffffff; 
+    display: flex;
+    flex-direction:row;
+    position:fixed;
+    top:0px;
+    z-index: 10;
+}
+
+.header .logoAndProfile{
+    height: 100%;
+    width: 16%;
+    border-right: 1px solid #ffffff;
+}

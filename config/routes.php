@@ -57,6 +57,7 @@ return static function (RouteBuilder $routes) {
          */
         $builder->connect('/pages/*', 'Pages::display');
 
+
         /*
          * Connect catchall routes for all controllers.
          *

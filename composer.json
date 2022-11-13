@@ -1,6 +1,6 @@
 {
-    "name": "cakephp/app",
-    "description": "CakePHP skeleton app",
+    "name": "cakephp/pos",
+    "description": "company point of sale web app",
     "homepage": "https://cakephp.org",
     "type": "project",
     "license": "MIT",
