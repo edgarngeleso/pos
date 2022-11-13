@@ -1,4 +1,8 @@
-
+<?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
 <!DOCTYPE html>
 <html>
 <head>

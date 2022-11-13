@@ -2,6 +2,11 @@
 link() method generate html link
 -->
 <?php
+/**
+ * @var \App\View\AppView $this
+ */
+?>
+<?php
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
