@@ -38,3 +38,11 @@ h2{
 .hide{
     display: none;
 }
+
+.custom-button{
+    background-color: #2e2c2b;
+    color: #ffffff;
+}
+.custom-button:hover{
+    color: #ffffff;
+}

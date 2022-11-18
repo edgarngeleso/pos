@@ -56,6 +56,12 @@ class ServicesTable extends Table
             ->requirePresence('serviceName', 'create')
             ->notEmptyString('serviceName');
 
+        $validator
+            ->scalar('serviceImage')
+            ->maxLength('serviceImage', 1000)
+            ->requirePresence('serviceImage', 'create')
+            ->notEmptyString('serviceImage');
+
         return $validator;
     }
 }

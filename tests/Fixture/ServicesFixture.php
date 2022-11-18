@@ -21,6 +21,7 @@ class ServicesFixture extends TestFixture
             [
                 'serviceID' => 1,
                 'serviceName' => 'Lorem ipsum dolor sit amet',
+                'serviceImage' => 'Lorem ipsum dolor sit amet',
             ],
         ];
         parent::init();

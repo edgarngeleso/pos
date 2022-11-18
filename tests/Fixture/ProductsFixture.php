@@ -21,6 +21,11 @@ class ProductsFixture extends TestFixture
             [
                 'productID' => 1,
                 'productName' => 'Lorem ipsum dolor sit amet',
+                'productBuyingPrice' => 1,
+                'productSellingPrice' => 1,
+                'productQuantity' => 1,
+                'supllierID' => 1,
+                'productImage' => 'Lorem ipsum dolor sit amet',
             ],
         ];
         parent::init();

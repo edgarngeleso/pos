@@ -9,6 +9,8 @@ namespace App\Controller;
  * @property \App\Model\Table\ServicesTable $Services
  * @method \App\Model\Entity\Service[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
+
+ use Cake\View\JsonView;
 class ServicesController extends AppController
 {
     /**
@@ -16,6 +18,12 @@ class ServicesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+
+    public function viewClasses(): array
+    {
+        return [JsonView::class];
+    }
+
     public function index()
     {
         $services = $this->paginate($this->Services);
@@ -47,15 +55,28 @@ class ServicesController extends AppController
     public function add()
     {
         $service = $this->Services->newEmptyEntity();
+        $imageUploadPath = WWW_ROOT."/img/product_images/";
         if ($this->request->is('post')) {
-            $service = $this->Services->patchEntity($service, $this->request->getData());
-            if ($this->Services->save($service)) {
-                $this->Flash->success(__('The service has been saved.'));
+            $data = $this->request->getData();
+            $clientImage = $data["serviceImage"];
+            $serviceImageName = time()."_".$clientImage->getClientFilename();
 
-                return $this->redirect(['action' => 'index']);
+            
+            $clientImage->moveTo($imageUploadPath.$serviceImageName);
+                $serviceEntity = [
+                    "serviceName"=>$data["serviceName"],
+                    "serviceImage"=>"product_images/".$serviceImageName
+                ];
+
+                $service = $this->Services->patchEntity($service, $serviceEntity);
+                if ($this->Services->save($service)) {
+                    $this->Flash->success(__('The service has been saved.'));
+
+                    return $this->redirect(['action' => 'index']);
+                }
+                $this->Flash->error(__('The service could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The service could not be saved. Please, try again.'));
-        }
+
         $this->set(compact('service'));
     }
 
@@ -101,5 +122,12 @@ class ServicesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function serviceData($id){
+        $this->loadModel("Services");
+        $service = $this->Services->get($id);
+        $this->set('service', $service);
+        $this->viewBuilder()->setOption('serialize', ['service']);
     }
 }

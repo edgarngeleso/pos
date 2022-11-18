@@ -9,6 +9,7 @@ namespace App\Controller;
  * @property \App\Model\Table\ProductsTable $Products
  * @method \App\Model\Entity\Product[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
+use Cake\View\JsonView;
 class ProductsController extends AppController
 {
     /**
@@ -16,10 +17,16 @@ class ProductsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+
+    public function viewClasses(): array
+    {
+        return [JsonView::class];
+    }
+
+
     public function index()
     {
         $products = $this->paginate($this->Products);
-
         $this->set(compact('products'));
     }
 
@@ -46,17 +53,32 @@ class ProductsController extends AppController
      */
     public function add()
     {
-        $product = $this->Products->newEmptyEntity();
+        $imageUploadPath = WWW_ROOT."/img/product_images/";
+        $addProduct = $this->Products->newEmptyEntity();
+
         if ($this->request->is('post')) {
-            $product = $this->Products->patchEntity($product, $this->request->getData());
-            if ($this->Products->save($product)) {
+            $data = $this->request->getData();
+            $clientImage = $data["productImage"];
+            $clientImageName = time()."-".$clientImage->getClientFilename();
+            $clientImage->moveTo($imageUploadPath.$clientImageName);
+            
+            $productData = [
+                "productName"=>$data["productName"],
+                "productBuyingPrice"=>$data["productBuyingPrice"],
+                "productSellingPrice"=>$data["productSellingPrice"],
+                "productQuantity"=>$data["productQuantity"],
+                "supllierID"=>1,
+                "productImage"=>"product_images/".$clientImageName
+            ];
+            $addProduct = $this->Products->patchEntity($addProduct, $productData);
+            if ($this->Products->save($addProduct)) {
                 $this->Flash->success(__('The product has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The product could not be saved. Please, try again.'));
         }
-        $this->set(compact('product'));
+        $this->set(compact('addProduct'));
     }
 
     /**
@@ -101,5 +123,12 @@ class ProductsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function productData($id){
+        $this->loadModel("Products");
+        $product = $this->Products->get($id);
+        $this->set('product', $product);
+        $this->viewBuilder()->setOption('serialize', ['product']);
     }
 }

@@ -4,26 +4,19 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="users form content">
-            <?= $this->Form->create($user) ?>
-            <fieldset>
-                <legend><?= __('Add User') ?></legend>
-                <?php
-                    echo $this->Form->control('userName');
-                    echo $this->Form->control('userPassword');
-                    echo $this->Form->control('isAdmin');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+        <div class="edit-and-add-container">
+            <?= $this->Form->create($addUser) ?>
+            <legend><?= __('Add User') ?></legend>
+            <label>User name</label>
+            <?=$this->Form->input('userName')?>
+            <label>Password</label>
+            <?=$this->Form->input('userPassword')?>
+
+            <span>
+                <label>Is admin</label>
+                <?=$this->Form->checkbox('isAdmin')?>
+            </span>
+                
+            <?= $this->Form->button(__('Add user'),["class"=>"custom-button"]) ?>
             <?= $this->Form->end() ?>
         </div>
-    </div>
-</div>

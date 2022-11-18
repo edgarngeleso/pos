@@ -24,21 +24,15 @@ $cakeDescription = 'POS';
     <?= $this->element("head") ?>
 </head>
 <body>
-    <?= $this->element("navbar") ?>
-    <div style="width: 100%; display:flex; flex-direction:row;">
+    <div class="all">
+        <?= $this->element("navbar") ?>
         <?= $this->element("leftbar") ?>
-        <main style="margin-left: 17%;margin-top:7.5vh;width:62%;background-color:#f5f5f5;">
-            <div class="container">
-                <?= $this->Flash->render() ?>
-                <?= $this->fetch('content') ?>
-            </div>
+        <main class="content">
+            <?= $this->Flash->render() ?>
+            <?= $this->fetch('content') ?>
         </main>
         <?= $this->element("rightbar") ?>
     </div>
-    
-    
-
-    
     <?= $this->element("footer") ?>
 </body>
 </html>

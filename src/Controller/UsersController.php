@@ -19,7 +19,7 @@ class UsersController extends AppController
      */
     public function beforeFilter(EventInterface $event){
         parent::beforeFilter($event);
-        $this->Auth->allow(["add","logout"]);
+        $this->Auth->allow(["logout"]);
     }
     public function index()
     {
@@ -37,11 +37,11 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
+        $viewuser = $this->Users->get($id, [
             'contain' => [],
         ]);
 
-        $this->set(compact('user'));
+        $this->set(compact('viewuser'));
     }
 
     /**
@@ -51,9 +51,14 @@ class UsersController extends AppController
      */
     public function add()
     {
+        
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $addData = ["userName"=>$this->request->getData()["userName"],
+                        "userPassword"=>password_hash($this->request->getData()["userPassword"],PASSWORD_DEFAULT),
+                        "isAdmin"=>$this->request->getData()["isAdmin"]];
+
+            $user = $this->Users->patchEntity($user, $addData);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -61,7 +66,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set("addUser",$user);
     }
 
     /**
@@ -85,7 +90,7 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $this->set("editUser",$user);
     }
 
     /**
@@ -109,13 +114,42 @@ class UsersController extends AppController
     }
 
     public function login(){
+
         $user = $this->Users->newEmptyEntity();
         $this->set("error",null);
+
+        //check if its first user and 
+        $availableUsers = $this->Users->find("all");
+        if($availableUsers->count()<=0){
+            return $this->redirect("users/register");
+        }
+
         if($this->request->is("post")){
             $requestData = $this->request->getData();
-            $query = "SELECT * FROM users WHERE userName=".$requestData["userName"]."";
-            $currentUser = $this->Auth->identify();
-            print_r($currentUser);
+            $userData = null;
+            $allUsers = $this->Users->find()->all();
+            foreach ($allUsers as $key => $value) {
+                if($value->userName == $requestData["userName"]){
+                    $userData = $value;
+                    break;
+                }
+            }
+            
+            if($userData != null){
+                if(password_verify($requestData["userPassword"],$userData->userPassword)){
+                    $this->request->getSession()->write("user",$userData);
+                    return $this->redirect($this->Auth->redirectUrl());
+                }else{
+                    $this->set("error","Wrong password.");
+                }
+            }else{
+                $this->set("error","User name not found.");
+            }
+            
+            
+            /*$currentUser = $this->Auth->identify();
+            //return $this->redirect("users/add");
+            //print_r($currentUser);
 
             if($currentUser){
                 $this->set("error","Logged in");
@@ -123,9 +157,9 @@ class UsersController extends AppController
                 return $this->redirect($this->Auth->redirectUrl());
                 //header("Location:/pos");
                 //exit();
-            }
-            $this->set("error","Invalid user name or password");
-            $this->Flash->error(__("Invalid user name or password"));
+            }*
+            //$this->set("error","Invalid user name or password");
+            //$this->Flash->error(__("Invalid user name or password"));
             //$data = $this->Users->query($query)->first();
             //$data = $this->Users->find("all")->all();
             
@@ -162,10 +196,15 @@ class UsersController extends AppController
         $this->set("error",null);
         $this->set("user",$user);
 
+        //check if its first user and 
+        $availableUsers = $this->Users->find("all");
+        if($availableUsers->count()>0){
+            return $this->redirect("users/login");
+        }
+
         if($this->request->is("post")){
             $requestData = $this->request->getData();
-            $this->Users->patchEntity($user, $requestData);
-            $query = "SELECT * FROM users WHERE userName=".$requestData["userName"]."";
+            
             $data = $this->Users->find("all")->all();
             //print_r($this->Users->find("all")->where(["Users.userName ="=>$requestData["userName"]])->all());
             //print_r($this->Users->find("all",["conditions" => ["Users.userName =" => $requestData["userName"]] ]));
@@ -178,9 +217,14 @@ class UsersController extends AppController
             }
 
             if($requestData["userPassword"] == $requestData["confirmPassword"]){
+                @$addData = ["userName"=>$requestData["userName"],
+                        "userPassword"=>password_hash($requestData["userPassword"],PASSWORD_DEFAULT),
+                        "isAdmin"=>$requestData["isAdmin"]];
+
+                $user = $this->Users->patchEntity($user, $addData);
                 if ($this->Users->save($user)) {
                     $this->set("error",null);
-                    $this->Flash->success(__('Successfully registered.'));
+                    //$this->Flash->success(__('Successfully registered.'));
                     return $this->redirect(['action' => '/login']);
                 }else{
                     $this->set("error","Unable to create account. Try again later.");

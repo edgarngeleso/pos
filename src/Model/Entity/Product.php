@@ -10,6 +10,11 @@ use Cake\ORM\Entity;
  *
  * @property int $productID
  * @property string $productName
+ * @property float $productBuyingPrice
+ * @property float $productSellingPrice
+ * @property int $productQuantity
+ * @property int $supllierID
+ * @property string $productImage
  */
 class Product extends Entity
 {
@@ -24,5 +29,10 @@ class Product extends Entity
      */
     protected $_accessible = [
         'productName' => true,
+        'productBuyingPrice' => true,
+        'productSellingPrice' => true,
+        'productQuantity' => true,
+        'supllierID' => true,
+        'productImage' => true,
     ];
 }

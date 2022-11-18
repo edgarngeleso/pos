@@ -56,6 +56,32 @@ class ProductsTable extends Table
             ->requirePresence('productName', 'create')
             ->notEmptyString('productName');
 
+        $validator
+            ->numeric('productBuyingPrice')
+            ->requirePresence('productBuyingPrice', 'create')
+            ->notEmptyString('productBuyingPrice');
+
+        $validator
+            ->numeric('productSellingPrice')
+            ->requirePresence('productSellingPrice', 'create')
+            ->notEmptyString('productSellingPrice');
+
+        $validator
+            ->integer('productQuantity')
+            ->requirePresence('productQuantity', 'create')
+            ->notEmptyString('productQuantity');
+
+        $validator
+            ->integer('supllierID')
+            ->requirePresence('supllierID', 'create')
+            ->notEmptyString('supllierID');
+
+        $validator
+            ->scalar('productImage')
+            ->maxLength('productImage', 1000)
+            ->requirePresence('productImage', 'create')
+            ->notEmptyString('productImage');
+
         return $validator;
     }
 }

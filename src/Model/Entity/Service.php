@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $serviceID
  * @property string $serviceName
+ * @property string $serviceImage
  */
 class Service extends Entity
 {
@@ -24,5 +25,6 @@ class Service extends Entity
      */
     protected $_accessible = [
         'serviceName' => true,
+        'serviceImage' => true,
     ];
 }

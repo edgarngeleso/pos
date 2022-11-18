@@ -38,6 +38,7 @@ class AppController extends Controller
      *
      * @return void
      */
+    
     public function initialize(): void
     {
         parent::initialize();
@@ -46,14 +47,18 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent("Auth",[
                 //"authorize" => ["Controller"],
-                "loginRedirect"=>["Pages",
-                "action"=>"index"
+                "loginRedirect"=>[
+                    "controller"=>"Home",
+                    "action"=>"index"
                 ],
-                /*"logoutRedirect"=>["controller"=>"Users",
-                "action"=>"login"
-                ]*/
+                "logoutRedirect"=>[
+                    "controller"=>"Users",
+                    "action"=>"login"
+                ]
             ]
         );
+
+        date_default_timezone_set("Africa/Nairobi");
     }
         /*
          * Enable the following component for recommended CakePHP form protection settings.
@@ -62,8 +67,30 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         public function beforeFilter(EventInterface $event){
-            $this->Auth->allow(["index","view","display"]);
-            $this->set("auth",$this->Auth);
+            $this->Auth->allow(["register","login"]);
+            if($this->request->getSession()->read("user")){
+                @$this->request->getSession()->delete("Flash");
+                @$this->Auth->allow(["","index","view","display","productData","serviceData","addSale","analyticsData"]);
+                if($this->request->getSession()->read("user")->isAdmin){
+                    @$this->Auth->allow(["",
+                                            "index",
+                                            "add",
+                                            "view",
+                                            "display",
+                                            "edit",
+                                            "delete",
+                                            "productData",
+                                            "serviceData",
+                                            "addsale",
+                                            "manage",
+                                            "analyticsData"]);
+                }
+
+                $this->set("user",$this->request->getSession()->read("user"));
+            }
+
+            
+            
         }
 
         public function isAuthorized($user){
